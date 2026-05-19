@@ -28,7 +28,7 @@ body{
     height:100vh;
 }
 
-/* INTRO SCREEN */
+/* INTRO */
 
 #intro{
     position:fixed;
@@ -38,11 +38,14 @@ body{
     height:100%;
     background:
     linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
+
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
+
     z-index:99999;
+
     animation:introFade 3.5s forwards;
 }
 
@@ -50,6 +53,7 @@ body{
     font-size:70px;
     font-weight:900;
     color:white;
+
     letter-spacing:6px;
 
     text-shadow:
@@ -61,11 +65,34 @@ body{
 }
 
 #introText{
-    margin-top:15px;
+    margin-top:12px;
+
     font-size:24px;
+
     letter-spacing:10px;
+
     color:#dbeafe;
+
     animation:fadeUp 2s ease;
+}
+
+#randomSlogan{
+
+    margin-top:28px;
+
+    color:white;
+
+    font-size:18px;
+
+    letter-spacing:2px;
+
+    opacity:0.95;
+
+    text-align:center;
+
+    padding:0 20px;
+
+    animation:sloganFade 2.2s ease;
 }
 
 @keyframes logoPop{
@@ -98,6 +125,19 @@ body{
     }
 }
 
+@keyframes sloganFade{
+
+    0%{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    100%{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
 @keyframes introFade{
 
     0%{
@@ -112,6 +152,7 @@ body{
     100%{
         opacity:0;
         visibility:hidden;
+        pointer-events:none;
     }
 }
 
@@ -122,6 +163,7 @@ body{
     height:700px;
     max-width:100vw;
     max-height:100vh;
+
     position:relative;
     overflow:hidden;
 
@@ -493,6 +535,8 @@ body{
         PRODUCTION
     </div>
 
+    <div id="randomSlogan"></div>
+
 </div>
 
 <!-- GAME -->
@@ -530,6 +574,28 @@ body{
 </div>
 
 <script>
+
+const slogans = [
+
+    "PLAY • WIN • REPEAT",
+
+    "FLY HIGH • NEVER QUIT",
+
+    "LEGENDS NEVER STOP",
+
+    "ONE MORE GAME ?",
+
+    "GAMERS RULE THE SKY",
+
+    "SKILL BEATS LUCK",
+
+    "BORN TO PLAY"
+
+];
+
+document.getElementById("randomSlogan").innerText =
+
+slogans[Math.floor(Math.random() * slogans.length)];
 
 const game = document.getElementById("game");
 
@@ -599,16 +665,12 @@ function gameLoop(){
         bird.style.transform =
         `rotate(${velocity*3}deg)`;
 
-        /* GROUND */
-
         if(
             birdY + 42 >=
             game.clientHeight - 110
         ){
             endGame();
         }
-
-        /* TOP */
 
         if(birdY <= 0){
 
@@ -625,8 +687,6 @@ function gameLoop(){
             pipePair.bottom.style.left =
             pipePair.x + "px";
 
-            /* SCORE */
-
             if(
                 !pipePair.passed &&
                 pipePair.x < 90
@@ -638,8 +698,6 @@ function gameLoop(){
 
                 scoreText.innerText = score;
             }
-
-            /* COLLISION */
 
             const birdRect =
             bird.getBoundingClientRect();
